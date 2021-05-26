@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
+import MomentUtils from '@date-io/moment';
+import {
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 import Payment from './screens/Payment';
 
 const theme = createMuiTheme({
@@ -30,11 +33,14 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Route exact path="/" component={Payment} />
-      </Router>
-    </ThemeProvider>
+
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Route exact path="/" component={Payment} />
+        </Router>
+      </ThemeProvider>
+    </MuiPickersUtilsProvider>
   );
 }
 
