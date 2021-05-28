@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CardForm(props) {
     const classes = useStyles();
-    const { cardNum, onCardNumChange, selectedDate, handleDateChange, selectedMonth, handleMonthChange, flipCard, setFlipCard } = props
+    const { cardNum, onCardNumChange, selectedDate, handleDateChange, selectedMonth, handleMonthChange, flipCard, setFlipCard, setCardName, handleCvvChange, cvvNum } = props
     return (
         <form className={classes.formItems} noValidate autoComplete="off">
             <Grid container xs={12} direction="column" justify="center" alignItems="center">
@@ -34,7 +34,6 @@ export default function CardForm(props) {
                         Card Number
                                 </InputLabel>
                     <TextField
-                        error={false}
                         id="filled-error-helper-text"
                         helperText="Incorrect entry."
                         variant="outlined"
@@ -48,12 +47,12 @@ export default function CardForm(props) {
                         Card Holder Name
                                 </InputLabel>
                     <TextField
-                        error={false}
                         id="filled-error-helper-text"
                         defaultValue=""
                         helperText="Incorrect entry."
                         variant="outlined"
                         className={classes.cardNum}
+                        onChange={setCardName}
                     />
                 </Grid>
                 <Grid xs={12} container direction="row" justify="center" alignItems="center" >
@@ -71,7 +70,6 @@ export default function CardForm(props) {
                             value={selectedMonth}
                             onChange={handleMonthChange}
                             shouldDisableDate={true}
-                            required
                         />
                     </Grid>
                     <Grid xs={4} item style={{ marginTop: '1rem' }}>
@@ -89,13 +87,15 @@ export default function CardForm(props) {
                             CVV
                                 </InputLabel>
                         <TextField
-                            error={false}
                             id="filled-error-helper-text"
                             defaultValue=""
                             helperText="Incorrect entry."
                             variant="outlined"
                             onFocus={() => { setFlipCard(!flipCard) }}
                             onBlur={() => { setFlipCard(!flipCard) }}
+                            onChange={handleCvvChange}
+                            value={cvvNum}
+                            type='number'
                         />
                     </Grid>
                 </Grid>
