@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from './Card';
 import CardForm from './Form';
 import Grid from '@material-ui/core/Grid';
+import { getCardType } from '../../utils/cardTypes';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,6 +35,10 @@ function Payment() {
     const [cardNum, setValue] = useState('');
     const [selectedDate, handleDateChange] = useState(new Date());
     const [selectedMonth, handleMonthChange] = useState(new Date());
+    const [cardType, setCardType] = useState('Visa');
+    const [cardName, setCardName] = useState('');
+    const [cvvNum, setCvvNumber] = useState('');
+
     const onCardNumChange = (event) => {
         var val = event.target.value;
         const valArray = val.split(' ').join('').split('');
@@ -56,17 +61,24 @@ function Payment() {
             setValue(val)
         }
 
+
     }
+
+    useEffect(() => {
+        const cardValue = cardNum.replaceAll(/\s/g, '')
+        console.log(getCardType(cardValue))
+        setCardType(getCardType(cardValue))
+    }, [cardNum])
 
     return (
         <>
             <div className={classes.root}>
 
                 <Grid className={classes.form} justify='center'>
-                    <CardForm onCardNumChange={onCardNumChange} cardNum={cardNum} setValue={setValue} selectedDate={selectedDate} handleDateChange={handleDateChange} handleMonthChange={handleMonthChange} selectedMonth={selectedMonth} flipCard={flipCard} setFlipCard={setFlipCard} />
+                    <CardForm onCardNumChange={onCardNumChange} cardNum={cardNum} setValue={setValue} selectedDate={selectedDate} handleDateChange={handleDateChange} handleMonthChange={handleMonthChange} selectedMonth={selectedMonth} flipCard={flipCard} setFlipCard={setFlipCard} setCardName={(event) => { setCardName(event.target.value) }} handleCvvChange={(event) => { setCvvNumber((event.target.value).substring(0, 4)) }} cvvNum={cvvNum} />
                 </Grid>
                 <div className={classes.cardPos}>
-                    <Card flipCard={flipCard} />
+                    <Card flipCard={flipCard} cardType={cardType} selectedDate={selectedDate} selectedMonth={selectedMonth} cardNum={cardNum} cardName={cardName} cvvNum={cvvNum} />
                 </div>
             </div>
         </>
